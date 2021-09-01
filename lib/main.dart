@@ -1,5 +1,6 @@
 
 
+import 'package:camera_app/map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -10,42 +11,60 @@ void main() {
 
 class MyApp extends StatelessWidget {
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: "",
+        home: MainAppStateFul()
+    );
+  }
+}
+
+class MainAppStateFul extends StatefulWidget {
+  MainAppState createState() => MainAppState();
+
+}
+
+class MainAppState extends State<MainAppStateFul> {
   final picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("カメラ"),
-        ),
-        body: Container(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RaisedButton(
-                  child: Text("カメラ起動"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("カメラ"),
+      ),
+      body: Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RaisedButton(
+                child: Text("カメラ起動"),
+                onPressed: () {
+                  getImage();
+                },
+              ),
+              RaisedButton(
+                child: Text("ライブラリ起動"),
+                onPressed: () {
+                  // _getPhoto();
+                  loadAssets();
+                },
+              ),
+              RaisedButton(
+                  child: Text("マップ表示"),
                   onPressed: () {
-                    getImage();
-                  },
-                ),
-                RaisedButton(
-                  child: Text("ライブラリ起動"),
-                  onPressed: () {
-                    // _getPhoto();
-                    loadAssets();
-                  },
-                ),
-              ],
-            ),
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      return MapView();
+                    }));
+                  })
+            ],
           ),
         ),
       ),
     );
   }
-
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
   }
